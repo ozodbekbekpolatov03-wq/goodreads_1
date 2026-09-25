@@ -32,3 +32,7 @@ class UserCreateForm(forms.ModelForm):
         user.set_password(self.cleaned_data['password'])
         user.save()
         return user
+
+# class UserLoginForm(forms.Form):
+#     username=forms.CharField(max_length=150)
+#     password=forms.CharField(max_length=128)
