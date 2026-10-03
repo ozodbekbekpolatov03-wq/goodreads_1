@@ -1,5 +1,12 @@
 <title> Books page</title>
 <h1>Books      </h1>
+    {% if messages %} 
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
 <ul>
     {% for book in books %}
         <li>

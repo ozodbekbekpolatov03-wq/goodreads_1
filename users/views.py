@@ -1,11 +1,14 @@
 from multiprocessing import AuthenticationError
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import login
+from django.contrib.auth import login, logout
 from django.shortcuts import render, redirect
 from django.template import context
 from django.views import View
 from django.contrib.auth.models import User
 from users.forms import UserCreateForm
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
+
 # class RegisterView(View):
 #     def get(self, request):
 #         return render(request, 'users/register.html')
@@ -97,9 +100,23 @@ class LoginView(View):
         if login_form.is_valid():
             user=login_form.get_user()
             login(request,user)
-            return redirect('landing_page')
+            messages.success(request, f'Xush kelibsiz, {user.username}!')
+            return redirect('books:list')
         else:
             context={
                 'login_form': login_form
             }
             return render(request, 'users/login.html', context)
+
+class ProfileView(LoginRequiredMixin, View):
+    def get(self, request):
+        context={
+            'user': request.user
+        }
+        return render(request, 'users/profile.html', context)
+
+class LogoutView(LoginRequiredMixin, View):
+    def get(self, request):
+        logout(request)
+        messages.info(request, 'Siz tizimdan muvaffaqiyatli chiqdingiz.')
+        return redirect('landing_page')
