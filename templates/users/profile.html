@@ -1,4 +1,10 @@
-<h1>Profile</h1>
-<p>Username: {{ user.username }}</p>
-<p>Email: {{ user.email }}</p>
- 
+{% extends 'base.html' %}
+{% block title %}Profile Page{% endblock %}
+{% block content %}
+    <h1>Profile Page</h1>
+    <p>Username: {{ user.username }}</p>
+    <p>First Name: {{ user.first_name }}</p>
+    <p>Last Name: {{ user.last_name }}</p>
+    <p>Email: {{ user.email }}</p>
+    <a href="{% url 'users:profile_edit' %}">Edit Profile</a>
+{% endblock %}

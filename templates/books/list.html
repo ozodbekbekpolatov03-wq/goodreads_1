@@ -1,17 +1,16 @@
-<title> Books page</title>
-<h1>Books      </h1>
-    {% if messages %} 
-        <ul>
-            {% for message in messages %}
-                <li>{{ message }}</li>
-            {% endfor %}
-        </ul>
-    {% endif %}
-<ul>
-    {% for book in books %}
-        <li>
-            <a href="{% url 'books:detail' id=book.id %}">{{ book.title }}</a>
-
-        </li>
-    {% endfor %}       
-</ul> 
+{% extends 'base.html' %}
+{% block title %}Books Page{% endblock %}
+{% block content %}
+<h1> Books </h1>
+{% if books %}
+    <ul>
+        {% for book in books %}
+            <li>
+                <a href="{% url 'books:detail' book.id %}">{{book.title}}</a>
+            </li>
+        {% endfor %}
+    </ul>
+{% else %}
+    <p>No books found.</p>
+{% endif %}
+{% endblock %}

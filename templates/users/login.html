@@ -1,18 +1,10 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>login page</title>
-</head>
-<body>
-    <h1>login page</h1>
-    <p>
-        <form enctype="multipart/form-data" method="POST" >
-            {% csrf_token %}
-            {{login_form}}
-            <button type="submit">Login</button>
-        </form>
-    </p>
-</body>
-</html>
+{% extends 'base.html' %}
+{% block title %}Login Page{% endblock %}
+{% block content %}
+<h1>Login Page</h1>
+<form method="post" action="{% url 'users:login' %}">
+    {% csrf_token %}
+    {{ login_form.as_p }}
+    <button type="submit">Submit</button>
+</form>
+{% endblock %}

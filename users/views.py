@@ -5,9 +5,11 @@ from django.shortcuts import render, redirect
 from django.template import context
 from django.views import View
 from django.contrib.auth.models import User
-from users.forms import UserCreateForm
+from users.forms import UserCreateForm, UserUpdateForms
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+
+# from xml.utils import is_valid_name
 
 # class RegisterView(View):
 #     def get(self, request):
@@ -120,3 +122,22 @@ class LogoutView(LoginRequiredMixin, View):
         logout(request)
         messages.info(request, 'Siz tizimdan muvaffaqiyatli chiqdingiz.')
         return redirect('landing_page')
+
+class ProfileUpdateView(LoginRequiredMixin, View):
+    def get(self,request):
+        user_update_forms=UserUpdateForms(instance=request.user)
+        context={
+            'form':user_update_forms
+        }
+        return render (request, 'users/profile_edit.html', context)
+    
+    def post(self,request):
+        user_update_forms=UserUpdateForms( instance=request.user, data=request.POST)
+        if user_update_forms.is_valid():
+            user_update_forms.save()
+            messages.success(request,"Sizning profilingiz movfaqyatli o'zgartrildi")
+            return redirect('users:profile')
+        context={
+            'form':user_update_forms
+        }
+        return render (request, 'users/profile_edit.html', context)
